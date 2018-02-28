@@ -9,13 +9,13 @@ public class Compress {
 
         try {
 //            Packager packager = new Packager("F:/Work/Compress - Copy", new FileOutputStream("F:/Work/package"));
-            OutputStream os = new DeflaterOutputStream(new FileOutputStream("F:/Work/package"));
+            OutputStream os = new DeflaterOutputStream(new SplitFileOutputStream("F:/Work/output", 10));
             Packager packager = new Packager("F:/Work/Compress - Copy", os);
             packager.pack();
             packager.close();
 
 //            Unpackager unpackager = new Unpackager("F:/Work/Compress_Copy", new FileInputStream("F:/Work/package"));
-            Unpackager unpackager = new Unpackager("F:/Work/Compress_Copy", new InflaterInputStream(new FileInputStream("F:/Work/package")));
+            Unpackager unpackager = new Unpackager("F:/Work/Compress_Copy", new InflaterInputStream(new SplitFileInputStream("F:/Work/output")));
             unpackager.unpack();
 
 
