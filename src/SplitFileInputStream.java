@@ -37,6 +37,7 @@ public class SplitFileInputStream extends InputStream {
             String next = getNextFileName();
             try {
                 input = new BufferedInputStream(new FileInputStream(next));
+                System.out.println("<<< " + next + " >>>");
             }catch (Exception e) {
                 return -1;
             }

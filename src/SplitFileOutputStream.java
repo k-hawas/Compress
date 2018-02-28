@@ -1,3 +1,4 @@
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,7 +24,7 @@ public class SplitFileOutputStream extends OutputStream {
     private String path;
     private String prefix;
     private long size;
-    private FileOutputStream current;
+    private OutputStream current;
 
 
     /** Creates an instance that writes to specified path.
@@ -64,9 +65,11 @@ public class SplitFileOutputStream extends OutputStream {
     @Override
     public void write(int b) throws IOException {
         if (totalWritten % size == 0) {
-            if(current != null)
+            if(current != null) {
+                current.flush();
                 current.close();
-            current = new FileOutputStream(getNextFilename());
+            }
+            current = new BufferedOutputStream(new FileOutputStream(getNextFilename()));
         }
         current.write(b);
         totalWritten++;
