@@ -27,8 +27,6 @@ public class Unpackager {
             if(s == null)
                 break;
             System.out.println(s);
-            if(s.startsWith(".git/objects/4d/51e983f64ea94d8f52136698afb6166a7"))
-                s = ".git/objects/4d/51e983f64ea94d8f52136698afb6166a7";
             if (s.endsWith("/"))  // directory
                 unpackFolder(s);
             else
@@ -71,7 +69,11 @@ public class Unpackager {
 
     private int inputInt() throws IOException {
         byte[] b = new byte[4];
-        input.read(b);
+    //    input.read(b);
+        b[0] = (byte)input.read();
+        b[1] = (byte)input.read();
+        b[2] = (byte)input.read();
+        b[3] = (byte)input.read();
         int i = 0;
         i |= (int)b[0] & 0xFF;
         i |= ((int)b[1] << 8) & 0xFF00;
@@ -82,7 +84,8 @@ public class Unpackager {
 
     private short inputShort() throws IOException {
         byte[] b = new byte[2];
-        input.read(b);
+        b[0] = (byte)input.read();
+        b[1] = (byte)input.read();
         short i = 0;
         i += b[0];
         i += b[1] << 8;
